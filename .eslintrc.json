@@ -1,0 +1,18 @@
+{
+	"plugins": ["node"],
+	"extends": ["eslint:recommended", "plugin:node/recommended"],
+	"rules": {
+		"no-console": 0,
+		"no-var": 2,
+		"indent": ["error", 2],
+		"semi": [2, "always"],
+		"node/no-unpublished-require": ["error", {
+			"allowModules": ["aws-sdk"]
+		}]
+	},
+	"parserOptions": {
+		"ecmaFeatures": {
+			"impliedStrict": true
+		}
+	}
+}
