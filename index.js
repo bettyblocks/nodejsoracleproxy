@@ -1,7 +1,21 @@
 const webServer = require('./services/web-server.js');
+const dbConfig = require('./config/database.js');
+const defaultThreadPoolSize = 4;
+process.env.UV_THREADPOOL_SIZE = dbConfig.hrPool.poolMax + defaultThreadPoolSize; // Increase thread pool size by poolMax
+const database = require('./services/database.js');
 
 async function startup() {
   console.log('Starting application');
+
+  try {
+    console.log('Initializing database module');
+
+    await database.initialize();
+  } catch (err) {
+    console.error(err);
+
+    process.exit(1); // Non-zero failure code
+  }
 
   try {
     console.log('Initializing web server module');
@@ -24,6 +38,16 @@ async function shutdown(e) {
     console.log('Closing web server module');
 
     await webServer.close();
+  } catch (e) {
+    console.log('Encountered error', e);
+
+    err = err || e;
+  }
+
+  try {
+    console.log('Closing database module');
+
+    await database.close();
   } catch (e) {
     console.log('Encountered error', e);
 
