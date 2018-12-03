@@ -28,16 +28,6 @@ function initialize() {
 
     httpServer = http.createServer(app);
 
-    app.get('/test', async (req, res) => {
-      const result = await database.simpleExecute('select user, systimestamp from dual').catch(function (err) {
-        console.error(err);
-      });
-      const user = result.rows[0].USER;
-      const date = result.rows[0].SYSTIMESTAMP;
-
-      res.end(`DB user: ${user}\nDate: ${date}`);
-    });
-
     app.get('/execute', async (req, res) => {
       let query = req.query.query;
       console.log(query);
