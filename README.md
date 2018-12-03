@@ -1,4 +1,3 @@
-Usage
 # Oracle Node.js Proxy
 
 ## About
